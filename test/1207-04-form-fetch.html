@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+<!-- action沒填會傳給自己 -->
+<!-- onsubmit表單要送出去之前會觸發 -->
+<!-- return false的意思是不要讓表單送出 -->
+<form name="form1" onsubmit="checkForm(); return false;">
+   <input type="text" id="account" name="account" placeholder="帳號"><br>
+   <input type="password" id="password" name="password" placeholder="密碼"><br>
+   <input type="submit">
+</form>
+
+<!-- 最後把fetch回傳後的帳密傳到這裡顯示在html上 -->
+<div id="info"></div>
+
+<script>
+     function checkForm(){
+         //若隨便亂寫一個function在這會出錯
+         const fd = new FormData(document.form1);
+//一般網頁預設AJAX會刷新跳頁面，使用fetch回傳資料不會刷新頁面
+//若fetch中間有錯誤會視為一般document檔案
+//fetch()裡指發給誰
+fetch('1207-03-form-to-json.php', {
+    //傳輸方式
+    method: 'POST',
+    //傳輸內容
+    body: fd
+})
+
+.then(r=>r.json())
+.then(obj=>{
+    console.log(obj);
+    //將資訊顯示在html上
+    document.querySelector('#info').innerHTML = obj.account + '<br>' + obj.password;
+})
+
+console.log('aaa');
+}
+
+
+/*以箭頭函式取代下述寫法
+function checkForm(){
+const fd = new FormData(document.form1);
+
+fetch('a20201207-03-form.php', {
+    method: 'POST',
+    body: fd
+})
+    .then(function(response){
+        return response.text();
+    })
+    .then(function(str){
+        console.log(str);
+    })
+
+console.log('aaa');
+}
+*/
+     
+</script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!--官方解說
+https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
+-->
+
+<!--教學網址 https://medium.com/@moojing/%E7%80%8F%E8%A6%BD%E5%99%A8%E7%9A%84%E6%99%82%E5%85%89%E6%A9%9F-pushstate-replacestate-api-fa1d909c82b0 -->
+
+<!-- 語法練習 history.pushState(state, title [, url]) -->
+<!-- state：每個 history stack 都會可以給一個 state 物件。 -->
+<!-- title : 更新後頁面的 title 標籤內容設定，不過根據官方文件說明，目前為止大部分瀏覽器都會忽略他，因此最安全的方法是傳入空字串，不做任何修改。 -->
+<!-- url : 執行該方法後想要更新的 url -->
+
+<div id="info"></div>
+
+<input type="text" id="kk" placeholder="key">
+<input type="text" id="vv" placeholder="value">
+<button id="btn" onclick="myPushState()">push it</button>
+
+<script>
+
+const kk = document.querySelector('#kk');
+const vv = document.querySelector('#vv');
+
+function myPushState(){
+    let obj = {};
+    obj[kk.value] = vv.value;
+
+    const url = new URL(window.location);
+    url.searchParams.set(kk.value, vv.value);
+
+    history.pushState(obj, '', url);
+    }
+
+// onpopstate點擊上頁時觸發
+window.onpopstate = function(event){
+    console.log(event.state);
+};
+
+</script>
+</body>
+</html>
